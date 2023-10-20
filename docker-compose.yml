@@ -1,0 +1,21 @@
+version: "3"
+services:
+  backend:
+    image: backend
+    command: "uvicorn main:app --host 0.0.0.0 --port 8042 --reload"
+    ports:
+      - "8042:8042"
+    networks: #user defined network bridge for all containers
+      - network-backend
+
+  frontend:
+    image: frontend
+    command: "streamlit run frontend/app.py --server.port 8501"
+    ports:
+      - "8501:8501"
+    expose:
+      - 8501
+    networks:
+      - network-backend
+networks:
+  network-backend:
